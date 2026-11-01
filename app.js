@@ -482,6 +482,20 @@ function bindEvents() {
     renderCurrentView();
   });
 
+  const btnOpenDatePicker = document.getElementById('btnOpenDatePicker');
+  if (btnOpenDatePicker && elDatePicker) {
+    btnOpenDatePicker.addEventListener('click', () => {
+      if (typeof elDatePicker.showPicker === 'function') {
+        try {
+          elDatePicker.showPicker();
+          return;
+        } catch (err) {}
+      }
+      elDatePicker.focus();
+      elDatePicker.click();
+    });
+  }
+
   elDatePicker.addEventListener('change', (e) => {
     if (!e.target.value) return;
     const [y, m, d] = e.target.value.split('-').map(Number);

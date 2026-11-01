@@ -7,98 +7,95 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="조선야사록" />
-  <link rel="manifest" href="manifest.json" />
+  <link rel="manifest" href="manifest.json?v=4" />
   <link rel="icon" type="image/svg+xml" href="icon.svg" />
   <link rel="apple-touch-icon" href="icon.svg" />
   <title>오늘의 조선 야사록 (朝鮮野史錄)</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=4" />
 </head>
 <body>
   <div class="dancheong-bar"></div>
 
-  <!-- 초슬림 1줄 상단 헤더: 타이틀 + 날짜 이동 + 핵심 아이콘 버튼 -->
+  <!-- 상단 고정 헤더 (모바일 360px 화면에서도 절대 넘치지 않도록 설계) -->
   <header class="app-header">
     <div class="header-inner">
       <div class="brand-group">
         <div class="royal-seal" title="춘추관 사관 비록 인장">野史</div>
-        <div class="brand-titles">
-          <h1>오늘의 조선 야사록</h1>
-          <span class="zodiac-mini-pill" id="zodiacMiniPill" title="현재 조선 12간지 시각">🐮 축시</span>
-        </div>
+        <span class="brand-title-text">조선야사록</span>
+        <span class="zodiac-mini-pill" id="zodiacMiniPill" title="현재 조선 12간지 시각">🐮 축시</span>
       </div>
 
-      <!-- 중앙: 날짜 즉시 탐색 바 -->
+      <!-- 중앙: 날짜 이동 바 -->
       <div class="compact-date-bar" id="swipeDateArea">
-        <button class="icon-btn" id="btnPrevDay" title="어제 날짜">◀</button>
-        <div class="date-label-wrap">
+        <button type="button" class="icon-btn" id="btnPrevDay" aria-label="어제 날짜">◀</button>
+        <button type="button" class="date-label-btn" id="btnOpenDatePicker" title="달력에서 날짜 선택">
           <span id="displayMonthDay" class="date-main-text">11월 2일</span>
-          <span id="displaySubEra" class="date-sub-text">세종16·중종6·세조12</span>
-          <input type="date" id="datePicker" class="hidden-date-Overlay" title="달력에서 날짜 선택" />
-        </div>
-        <button class="icon-btn" id="btnNextDay" title="내일 날짜">▶</button>
-        <button class="chip-btn" id="btnToday" title="오늘(11월 2일)로 이동">오늘</button>
-        <button class="chip-btn" id="btnRandomLegend" title="무작위 레전드 야사 뽑기">🎲 랜덤</button>
+          <span id="displaySubEra" class="date-sub-text">(세종·중종·세조)</span>
+        </button>
+        <input type="date" id="datePicker" class="sr-only-date" aria-label="날짜 선택" />
+        <button type="button" class="icon-btn" id="btnNextDay" aria-label="내일 날짜">▶</button>
+        <button type="button" class="chip-btn" id="btnToday" title="오늘(11월 2일)로 이동">오늘</button>
+        <button type="button" class="chip-btn" id="btnRandomLegend" title="무작위 레전드 야사 뽑기">🎲</button>
       </div>
 
       <!-- 우측: 아이콘 액션 버튼들 -->
       <div class="header-actions">
-        <button class="icon-action-btn crimson" id="btnTestPabalma" title="지금 특급 야사 파발마 알림 받기">
-          🔔 <span class="btn-label">특급알림</span>
+        <button type="button" class="icon-action-btn crimson" id="btnTestPabalma" title="지금 특급 야사 파발마 알림 받기">
+          🔔<span class="btn-label"> 알림</span>
         </button>
-        <button class="icon-action-btn" id="btnOpenAlertModal" title="파발마 흥미도 기준 설정">
-          ⚙️ <span class="btn-label" id="alertBadgeCount">92+</span>
+        <button type="button" class="icon-action-btn" id="btnOpenAlertModal" title="파발마 흥미도 기준 설정">
+          ⚙️<span class="btn-label" id="alertBadgeCount"> 92+</span>
         </button>
-        <button class="icon-action-btn" id="btnOpenBookmarks" title="나의 갈피 보관함">
+        <button type="button" class="icon-action-btn desktop-only-btn" id="btnOpenBookmarks" title="나의 갈피 보관함">
           🔖 <span id="bookmarkCount">0</span>
         </button>
-        <button class="icon-action-btn" id="btnOpenMobileModal" title="스마트폰 QR 및 텔레그램 전송">
+        <button type="button" class="icon-action-btn desktop-only-btn" id="btnOpenMobileModal" title="스마트폰 QR 및 텔레그램 전송">
           📱
         </button>
-        <button class="icon-action-btn" id="btnToggleTheme" title="주간/심야 모드 전환">
+        <button type="button" class="icon-action-btn" id="btnToggleTheme" title="주간/심야 모드 전환">
           🌙
         </button>
       </div>
     </div>
 
-    <!-- 2단 슬림 필터 바 (가로 스크롤 1줄) -->
+    <!-- 2단 카테고리 탭 바 -->
     <div class="slim-filter-bar">
-      <div class="slim-filter-inner">
-        <div class="category-tabs" id="categoryTabs">
-          <button class="cat-tab active" data-cat="all">전체</button>
-          <button class="cat-tab" data-cat="mystery">🛸 미스터리</button>
-          <button class="cat-tab" data-cat="scandal">👑 궁중스캔들</button>
-          <button class="cat-tab" data-cat="folklore">🦊 야담·기인</button>
-          <button class="cat-tab" data-cat="episode">🍖 왕의일상</button>
-          <button class="cat-tab" data-cat="legends">🏆 레전드TOP</button>
-        </div>
-
-        <div class="slim-right-tools">
-          <label class="interesting-only-toggle" title="체크하면 흥미도 기준 이상 특급 야사만 표시">
-            <input type="checkbox" id="chkInterestingOnly" />
-            <span>🔥 <span id="thresholdLabel">92</span>점↑만</span>
-          </label>
-
-          <select id="legendQuickSelect" class="compact-select" title="레전드 날짜 바로가기">
-            <option value="">📌 레전드 날짜 바로가기...</option>
-            <option value="11-02">11월 2일 — 앙부일구·창덕궁괴수·선비도둑</option>
-            <option value="09-22">9월 22일 — 강원도 5개 고을 UFO 목격</option>
-            <option value="12-30">12월 30일 — 살인죄로 섬에 유배 간 코끼리</option>
-            <option value="08-14">8월 14일 — 어우동과 양반들의 문신 스캔들</option>
-            <option value="03-19">3월 19일 — 그림 속으로 사라진 전우치</option>
-            <option value="05-15">5월 15일 — 세종대왕의 못 말리는 고기 사랑</option>
-            <option value="07-10">7월 10일 — 숙종의 고양이 '금손이' 집사 일기</option>
-            <option value="06-21">6월 21일 — 한여름 유월 폭설과 사람 얼굴 우박</option>
-          </select>
-
-          <input type="search" id="searchInput" class="compact-search" placeholder="🔍 키워드 검색..." />
-        </div>
+      <div class="category-tabs" id="categoryTabs">
+        <button type="button" class="cat-tab active" data-cat="all">전체</button>
+        <button type="button" class="cat-tab" data-cat="mystery">🛸 미스터리</button>
+        <button type="button" class="cat-tab" data-cat="scandal">👑 궁중스캔들</button>
+        <button type="button" class="cat-tab" data-cat="folklore">🦊 야담·기인</button>
+        <button type="button" class="cat-tab" data-cat="episode">🍖 왕의일상</button>
+        <button type="button" class="cat-tab" data-cat="legends">🏆 레전드TOP</button>
       </div>
     </div>
   </header>
 
-  <!-- 본문 영역: 접속 즉시 첫 번째 야사 카드가 바로 보이도록 배치 -->
+  <!-- 본문 영역 -->
   <main class="main-container">
-    <!-- 한 줄 요약 배너 (슬림) -->
+    <!-- 빠른 도구 줄 (레전드 날짜 선택 + 특급 필터 + 검색) -->
+    <div class="sub-toolbar">
+      <select id="legendQuickSelect" class="compact-select" aria-label="레전드 날짜 바로가기">
+        <option value="">📌 레전드 날짜 바로가기...</option>
+        <option value="11-02">11월 2일 — 앙부일구·창덕궁괴수·선비도둑</option>
+        <option value="09-22">9월 22일 — 강원도 5개 고을 UFO 목격</option>
+        <option value="12-30">12월 30일 — 살인죄로 섬에 유배 간 코끼리</option>
+        <option value="08-14">8월 14일 — 어우동과 양반들의 문신 스캔들</option>
+        <option value="03-19">3월 19일 — 그림 속으로 사라진 전우치</option>
+        <option value="05-15">5월 15일 — 세종대왕의 못 말리는 고기 사랑</option>
+        <option value="07-10">7월 10일 — 숙종의 고양이 '금손이' 집사 일기</option>
+        <option value="06-21">6월 21일 — 한여름 유월 폭설과 사람 얼굴 우박</option>
+      </select>
+
+      <label class="interesting-only-toggle" title="체크하면 흥미도 기준 이상 특급 야사만 표시">
+        <input type="checkbox" id="chkInterestingOnly" />
+        <span>🔥 <span id="thresholdLabel">92</span>점↑ 특급만</span>
+      </label>
+
+      <input type="search" id="searchInput" class="compact-search" placeholder="🔍 왕 이름·키워드 검색" />
+    </div>
+
+    <!-- 한 줄 요약 배너 -->
     <div class="one-line-brief" id="heroBriefText">
       📜 <strong>양력 11월 2일(오늘)</strong> — 1434년 종로 혜정교 '앙부일구' 최초 설치 비화 & 초겨울 밤하늘 발광체·창덕궁 괴수 소동 등 4편
     </div>
@@ -109,39 +106,39 @@
 
   <!-- 스마트폰 전용 하단 내비게이션 바 -->
   <nav class="mobile-bottom-nav" aria-label="모바일 빠른 메뉴">
-    <button class="mobile-nav-item active" id="mNavToday">
+    <button type="button" class="mobile-nav-item active" id="mNavToday">
       <span class="nav-icon">📜</span>
       <span>오늘야사</span>
     </button>
-    <button class="mobile-nav-item" id="mNavLegends">
+    <button type="button" class="mobile-nav-item" id="mNavLegends">
       <span class="nav-icon">🏆</span>
       <span>레전드</span>
     </button>
-    <button class="mobile-nav-item" id="mNavHotOnly">
+    <button type="button" class="mobile-nav-item" id="mNavHotOnly">
       <span class="nav-icon">🔥</span>
-      <span>특급필터</span>
+      <span>특급만</span>
     </button>
-    <button class="mobile-nav-item" id="mNavBookmarks">
+    <button type="button" class="mobile-nav-item" id="mNavBookmarks">
       <span class="nav-icon">🔖</span>
       <span>갈피</span>
     </button>
-    <button class="mobile-nav-item" id="mNavMobile">
+    <button type="button" class="mobile-nav-item" id="mNavMobile">
       <span class="nav-icon">📲</span>
       <span>텔레그램</span>
     </button>
   </nav>
 
-  <!-- 파발마(擺撥馬) 인앱 토스트 알림 (우측 하단 컴팩트) -->
+  <!-- 파발마(擺撥馬) 인앱 토스트 알림 -->
   <aside class="pabalma-toast" id="pabalmaToast" aria-live="polite">
     <div class="toast-header">
       <span class="toast-badge" id="toastBadge">🐎 파발마 특급 야사!</span>
-      <button class="toast-close" id="btnCloseToast" aria-label="닫기">✕</button>
+      <button type="button" class="toast-close" id="btnCloseToast" aria-label="닫기">✕</button>
     </div>
     <div class="toast-title" id="toastTitle">초겨울 밤하늘을 가른 붉은 항아리 비행체</div>
     <div class="toast-desc" id="toastDesc">중종 6년 11월 2일 기이한 천변 기록</div>
     <div style="display:flex; gap:6px; justify-content:flex-end;">
-      <button class="btn" id="btnToastTelegram" style="padding:4px 9px; font-size:0.75rem;">✈️ 텔레그램</button>
-      <button class="btn btn-crimson" id="btnToastReadNow" style="padding:4px 10px; font-size:0.76rem;">펼쳐보기</button>
+      <button type="button" class="btn" id="btnToastTelegram">✈️ 텔레그램</button>
+      <button type="button" class="btn btn-crimson" id="btnToastReadNow">펼쳐보기</button>
     </div>
   </aside>
 
@@ -150,33 +147,33 @@
     <div class="modal-box">
       <div class="modal-header">
         <h2>📱 스마트폰에서 보기 & 텔레그램 파발마</h2>
-        <button class="toast-close" id="btnCloseMobileModal">✕</button>
+        <button type="button" class="toast-close" id="btnCloseMobileModal">✕</button>
       </div>
 
-      <p style="font-size:0.86rem; color:var(--text-secondary); margin-bottom:10px;">
+      <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:10px;">
         스마트폰 카메라로 QR 코드를 스캔하거나 <strong>텔레그램 전송</strong>을 누르면 폰에서 즉시 열립니다.
       </p>
 
       <div class="qr-grid">
         <div class="qr-card">
           <div style="font-weight:700; font-size:0.84rem; color:var(--crimson);">🌐 외부 어디서나 접속 (GitHub Pages)</div>
-          <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://manjaedo.github.io/joseon-daily-yasa/" alt="GitHub Pages QR" />
-          <a href="https://manjaedo.github.io/joseon-daily-yasa/" target="_blank" rel="noopener" style="font-size:0.76rem; color:var(--crimson); font-weight:700; word-break:break-all;">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https://manjaedo.github.io/joseon-daily-yasa/" alt="GitHub Pages QR" />
+          <a href="https://manjaedo.github.io/joseon-daily-yasa/" target="_blank" rel="noopener" style="font-size:0.75rem; color:var(--crimson); font-weight:700; word-break:break-all;">
             https://manjaedo.github.io/joseon-daily-yasa/
           </a>
         </div>
 
         <div class="qr-card">
           <div style="font-weight:700; font-size:0.84rem; color:var(--jade);">🏠 집 같은 Wi-Fi 즉시 접속</div>
-          <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=http://192.168.0.11:3456" alt="Local Wi-Fi QR" />
-          <a href="http://192.168.0.11:3456" target="_blank" rel="noopener" style="font-size:0.76rem; color:var(--jade); font-weight:700;">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=http://192.168.0.11:3456" alt="Local Wi-Fi QR" />
+          <a href="http://192.168.0.11:3456" target="_blank" rel="noopener" style="font-size:0.75rem; color:var(--jade); font-weight:700;">
             http://192.168.0.11:3456
           </a>
         </div>
       </div>
 
       <div style="background:var(--bg-secondary); padding:12px; border-radius:10px; margin-top:10px;">
-        <button class="btn btn-crimson" id="btnPushDailyTelegram" style="width:100%; justify-content:center;">
+        <button type="button" class="btn btn-crimson" id="btnPushDailyTelegram" style="width:100%; justify-content:center;">
           🐎 현재 날짜 특급 야사 + 링크 내 텔레그램으로 발송
         </button>
         <p id="telegramSendStatus" style="font-size:0.78rem; margin-top:6px; color:var(--jade); font-weight:600; text-align:center;"></p>
@@ -189,7 +186,7 @@
     <div class="modal-box">
       <div class="modal-header">
         <h2>🐎 파발마(擺撥馬) 알림 기준 설정</h2>
-        <button class="toast-close" id="btnCloseAlertModal">✕</button>
+        <button type="button" class="toast-close" id="btnCloseAlertModal">✕</button>
       </div>
 
       <div class="form-group">
@@ -213,14 +210,14 @@
 
       <div class="form-group">
         <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
-          <button class="btn" id="btnRequestBrowserPerm">🔔 브라우저 알림 권한 허용</button>
+          <button type="button" class="btn" id="btnRequestBrowserPerm">🔔 브라우저 알림 권한 허용</button>
           <span id="permStatusText" style="font-size:0.8rem; color:var(--text-secondary);"></span>
         </div>
       </div>
 
       <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;">
-        <button class="btn" id="btnSendSampleAlert">🐎 테스트 발송</button>
-        <button class="btn btn-crimson" id="btnSaveAlertSettings">저장</button>
+        <button type="button" class="btn" id="btnSendSampleAlert">🐎 테스트 발송</button>
+        <button type="button" class="btn btn-crimson" id="btnSaveAlertSettings">저장</button>
       </div>
     </div>
   </div>
@@ -230,13 +227,13 @@
     <div class="modal-box">
       <div class="modal-header">
         <h2>🔖 나의 비기록(秘記錄) 갈피 보관함</h2>
-        <button class="toast-close" id="btnCloseBookmarkModal">✕</button>
+        <button type="button" class="toast-close" id="btnCloseBookmarkModal">✕</button>
       </div>
       <div id="bookmarkListContainer" style="display:flex; flex-direction:column; gap:10px;"></div>
     </div>
   </div>
 
-  <script src="data.js"></script>
-  <script src="app.js"></script>
+  <script src="data.js?v=4"></script>
+  <script src="app.js?v=4"></script>
 </body>
 </html>
