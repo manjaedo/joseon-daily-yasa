@@ -1,0 +1,18 @@
+{
+  "name": "오늘의 조선 야사록 (朝鮮野史錄)",
+  "short_name": "조선야사록",
+  "description": "양력 같은 날짜에 벌어졌던 조선왕조실록의 기이한 사건과 구중궁궐 야사 알림",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#13110f",
+  "theme_color": "#9e2a2b",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
