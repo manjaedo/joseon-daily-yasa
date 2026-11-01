@@ -181,6 +181,88 @@ html, body {
   font-weight: 600;
 }
 
+/* 3-1. 상단 오늘자 야사 제목 리스트 바로가기 */
+.quick-title-box {
+  background: var(--quote-bg);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+}
+
+.quick-title-header {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+.quick-title-items {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.quick-title-btn {
+  width: 100%;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 5px 6px;
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 0.88rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.quick-title-btn:hover {
+  background: var(--card);
+  color: var(--accent);
+}
+
+.quick-num {
+  font-weight: 600;
+  color: var(--sub);
+  min-width: 18px;
+}
+
+.quick-cat {
+  font-size: 0.78rem;
+  color: var(--accent);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.quick-text {
+  flex: 1;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.quick-king {
+  font-size: 0.76rem;
+  color: var(--sub);
+  white-space: nowrap;
+}
+
+@keyframes cardFlash {
+  0% { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent); }
+  100% { border-color: var(--line); box-shadow: none; }
+}
+
+.story-item.highlight-flash {
+  animation: cardFlash 1.4s ease-out;
+}
+
 /* 4. 본문 이야기 카드 (책 페이지처럼 차분한 구성) */
 .story-list {
   display: flex;

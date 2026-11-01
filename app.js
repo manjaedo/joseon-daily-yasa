@@ -8,6 +8,7 @@ const state = {
 
 const elMonthDay = document.getElementById('displayMonthDay');
 const elDatePicker = document.getElementById('datePicker');
+const elQuickTitleList = document.getElementById('quickTitleList');
 const elContainer = document.getElementById('storiesContainer');
 
 function init() {
@@ -56,14 +57,53 @@ function render() {
   }
 
   if (!stories.length) {
+    if (elQuickTitleList) elQuickTitleList.style.display = 'none';
     elContainer.innerHTML = `<p style="padding:40px 0; text-align:center; color:var(--sub);">해당 주제의 기록이 없습니다.</p>`;
     return;
   }
 
-  elContainer.innerHTML = stories.map(s => {
+  if (elQuickTitleList) {
+    elQuickTitleList.style.display = 'block';
+    const listTitle = state.category === 'legends'
+      ? `📜 명장면 야사 제목 바로가기 (${stories.length}편)`
+      : `📜 ${month}월 ${day}일 야사 제목 바로가기 (${stories.length}편)`;
+
+    elQuickTitleList.innerHTML = `
+      <div class="quick-title-header">${listTitle}</div>
+      <ol class="quick-title-items">
+        ${stories.map((s, idx) => {
+          const cat = CATEGORIES[s.category] || CATEGORIES.mystery;
+          return `
+            <li>
+              <button type="button" class="quick-title-btn" data-target="story-card-${idx}">
+                <span class="quick-num">${idx + 1}.</span>
+                <span class="quick-cat">[${cat.shortLabel}]</span>
+                <span class="quick-text">${s.title}</span>
+                <span class="quick-king">${s.king}</span>
+              </button>
+            </li>
+          `;
+        }).join('')}
+      </ol>
+    `;
+
+    elQuickTitleList.querySelectorAll('.quick-title-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetEl = document.getElementById(btn.dataset.target);
+        if (targetEl) {
+          targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          targetEl.classList.remove('highlight-flash');
+          void targetEl.offsetWidth;
+          targetEl.classList.add('highlight-flash');
+        }
+      });
+    });
+  }
+
+  elContainer.innerHTML = stories.map((s, idx) => {
     const cat = CATEGORIES[s.category] || CATEGORIES.mystery;
     return `
-      <article class="story-item">
+      <article class="story-item" id="story-card-${idx}">
         <div class="story-meta">${s.month}월 ${s.day}일 · ${s.king} (${s.year}년) · ${cat.shortLabel}</div>
         <h2 class="story-title">${s.title}</h2>
         <div class="story-body">${s.yasaStory}</div>
