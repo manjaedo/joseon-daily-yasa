@@ -1,18 +1,6 @@
-const CACHE_NAME = 'joseon-yasa-v4';
-const ASSETS = [
-  './',
-  './index.html',
-  './styles.css',
-  './data.js',
-  './app.js',
-  './manifest.json',
-  './icon.svg'
-];
+const CACHE_NAME = 'joseon-yasa-v5';
 
-self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
-  );
+self.addEventListener('install', () => {
   self.skipWaiting();
 });
 
@@ -25,6 +13,7 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
+// 항상 최신 서버 파일을 먼저 가져오고(Network-First), 오프라인일 때만 캐시 사용
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
   event.respondWith(
